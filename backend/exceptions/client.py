@@ -7,6 +7,7 @@ class IncorrectCurrencyData(ExchangeError):
         super().__init__(message)
 
 class IncorrectInputCodeCurrency(ExchangeError):
+    status_code = 400
     def __init__(self):
         message = "Данный ввод валюты не корректен"
         super().__init__(message)
