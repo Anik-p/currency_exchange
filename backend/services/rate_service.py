@@ -9,8 +9,8 @@ if TYPE_CHECKING:
 
 class RateService:
     def __init__(self, 
-                 currency_service: CurrencyService, 
-                 rate_dao: RateDAO
+                 currency_service: "CurrencyService", 
+                 rate_dao: "RateDAO"
                  ):
         
         self._currency_service = currency_service

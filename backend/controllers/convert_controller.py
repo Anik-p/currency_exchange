@@ -11,7 +11,7 @@ class ConvertController:
                 - 'to' (str): Код целевой валюты (например, 'EUR')
                 - 'amount' (str): Сумма для конвертации
     """
-    def __init__(self, convert_service: ConvertService,):
+    def __init__(self, convert_service: "ConvertService",):
         self._convert_service = convert_service
 
     def convert(self, request: dict) -> dict[str, dict]:

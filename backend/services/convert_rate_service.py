@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from dto import Currency
 
 class ConvertRateService:
-    def __init__(self, rate_dao: RateDAO, usd_id: int):
+    def __init__(self, rate_dao: "RateDAO", usd_id: int):
         self._rate_dao = rate_dao
         self._usd_id = usd_id
 

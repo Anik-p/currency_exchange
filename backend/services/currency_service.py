@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from dao import CurrencyDAO
 
 class CurrencyService:
-    def __init__(self, currency_dao: CurrencyDAO):
+    def __init__(self, currency_dao: "CurrencyDAO"):
         self._currency_dao = currency_dao
 
     @error_handler

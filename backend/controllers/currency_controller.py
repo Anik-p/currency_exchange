@@ -18,7 +18,7 @@ class CurrencyController:
                 - 'code' (str): Код исходной валюты (например, 'EUR')
             для get_all_currency нет поступаемых данных
     """
-    def __init__(self, currency_service: CurrencyService):
+    def __init__(self, currency_service: "CurrencyService"):
         self._currency_service = currency_service
 
     def get_currency(self, params: dict) -> dict:
