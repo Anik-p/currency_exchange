@@ -1,0 +1,1 @@
+from config.base_config import DB_PATH, HOST, PORT

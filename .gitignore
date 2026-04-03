@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# SQLite database
+*.db
+backend/db/*.db
+
+# VSCode settings
+.vscode/
+
+# JetBrains IDEs (PyCharm, etc.)
+.idea/
+
+# Environment files
+.env
+*.env
+
+# Backup files
+*.bak
+*.swp
+*.swo
+*.tmp
+
+# Logs
+*.log
+logs/
