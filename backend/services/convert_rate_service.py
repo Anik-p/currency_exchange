@@ -12,7 +12,7 @@ class ConvertRateService:
         self._rate_dao = rate_dao
         self._usd_id = usd_id
 
-    def get_conversion_rate(self, base_currency: Currency, target_currency: Currency) -> Decimal | None:
+    def get_conversion_rate(self, base_currency: "Currency", target_currency: "Currency") -> Decimal | None:
 
         rate = self._get_valid_rate(base_currency.id, target_currency.id)
    
@@ -31,7 +31,7 @@ class ConvertRateService:
         
         return cross_rate_base * cross_rate_target
         
-    def _get_valid_rate(self, base_id: int, target_id: int) -> ExchangeRate | None:
+    def _get_valid_rate(self, base_id: int, target_id: int) -> "ExchangeRate" | None:
         rate = self._rate_dao.get_rate(base_id, target_id)
 
         if rate is None:

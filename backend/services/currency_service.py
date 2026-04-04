@@ -32,7 +32,7 @@ class CurrencyService:
         return all_currency
     
     @error_handler
-    def register_currency(self, name: str, code: str, sign: str) -> Currency:
+    def register_currency(self, name: str, code: str, sign: str) -> "Currency":
         currency = self._currency_dao.register_currency_post(name, code, sign)
         if currency is None:
             raise CurrencyPairInputError()

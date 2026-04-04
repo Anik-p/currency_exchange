@@ -50,8 +50,8 @@ class ConvertService:
                                                  amount=str(count_currency))
     
     def _get_exchange_convert_amount(self, 
-                                     base_currency: Currency, 
-                                     target_currency: Currency, 
+                                     base_currency: "Currency", 
+                                     target_currency: "Currency", 
                                      converted_amount: str,
                                      amount: str) -> dict:
         rate_dict = {}
