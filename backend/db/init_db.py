@@ -6,7 +6,8 @@ def init_db():
     DB = Path(DB_PATH).resolve()
     if DB.exists():
         return("База данных уже инициализирована")
-
+    
+    DB.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB)
     cursor = conn.cursor()
 
