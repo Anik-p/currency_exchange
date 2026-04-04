@@ -1,3 +1,4 @@
+from __future__ import annotations
 from exceptions import *
 from dto import ExchangeRateCurrencies, ExchangeRate
 from utils import error_handler
@@ -9,8 +10,8 @@ if TYPE_CHECKING:
 
 class RateService:
     def __init__(self, 
-                 currency_service: "CurrencyService", 
-                 rate_dao: "RateDAO"
+                 currency_service: CurrencyService, 
+                 rate_dao: RateDAO
                  ):
         
         self._currency_service = currency_service

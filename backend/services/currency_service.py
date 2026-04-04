@@ -1,3 +1,4 @@
+from __future__ import annotations
 from exceptions import CurrencyNotFoundError, CurrenciesNotFoundError, CurrencyPairInputError
 from utils import error_handler
 
@@ -7,7 +8,7 @@ if TYPE_CHECKING:
     from dao import CurrencyDAO
 
 class CurrencyService:
-    def __init__(self, currency_dao: "CurrencyDAO"):
+    def __init__(self, currency_dao: CurrencyDAO):
         self._currency_dao = currency_dao
 
     @error_handler
@@ -32,7 +33,7 @@ class CurrencyService:
         return all_currency
     
     @error_handler
-    def register_currency(self, name: str, code: str, sign: str) -> "Currency":
+    def register_currency(self, name: str, code: str, sign: str) -> Currency:
         currency = self._currency_dao.register_currency_post(name, code, sign)
         if currency is None:
             raise CurrencyPairInputError()

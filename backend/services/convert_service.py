@@ -1,3 +1,4 @@
+from __future__ import annotations
 from decimal import Decimal, getcontext, ROUND_DOWN
 from exceptions import CurrencyNotFoundError
 from utils import error_handler
@@ -10,8 +11,8 @@ if TYPE_CHECKING:
 
 class ConvertService:
     def __init__(self, 
-                 currency_dao: "CurrencyDAO", 
-                 convert_rate_service: "ConvertRateService"):
+                 currency_dao: CurrencyDAO, 
+                 convert_rate_service: ConvertRateService):
         
         self._currency_dao = currency_dao
         self._convert_rate_service = convert_rate_service
@@ -50,8 +51,8 @@ class ConvertService:
                                                  amount=str(count_currency))
     
     def _get_exchange_convert_amount(self, 
-                                     base_currency: "Currency", 
-                                     target_currency: "Currency", 
+                                     base_currency: Currency, 
+                                     target_currency: Currency, 
                                      converted_amount: str,
                                      amount: str) -> dict:
         rate_dict = {}

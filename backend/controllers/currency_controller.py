@@ -1,3 +1,4 @@
+from __future__ import annotations
 from exceptions import IncorrectCurrencyData, IncorrectInputCodeCurrency
 from typing import TYPE_CHECKING
 
@@ -18,7 +19,7 @@ class CurrencyController:
                 - 'code' (str): Код исходной валюты (например, 'EUR')
             для get_all_currency нет поступаемых данных
     """
-    def __init__(self, currency_service: "CurrencyService"):
+    def __init__(self, currency_service: CurrencyService):
         self._currency_service = currency_service
 
     def get_currency(self, params: dict) -> dict:

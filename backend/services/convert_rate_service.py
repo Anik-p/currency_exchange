@@ -1,3 +1,4 @@
+from __future__ import annotations
 from exceptions import RateNotFoundError, InvalidCrossRateError
 from decimal import Decimal
 from typing import TYPE_CHECKING
@@ -8,11 +9,11 @@ if TYPE_CHECKING:
     from dto import Currency
 
 class ConvertRateService:
-    def __init__(self, rate_dao: "RateDAO", usd_id: int):
+    def __init__(self, rate_dao: RateDAO, usd_id: int):
         self._rate_dao = rate_dao
         self._usd_id = usd_id
 
-    def get_conversion_rate(self, base_currency: "Currency", target_currency: "Currency") -> Decimal | None:
+    def get_conversion_rate(self, base_currency: Currency, target_currency: Currency) -> Decimal | None:
 
         rate = self._get_valid_rate(base_currency.id, target_currency.id)
    
@@ -31,7 +32,7 @@ class ConvertRateService:
         
         return cross_rate_base * cross_rate_target
         
-    def _get_valid_rate(self, base_id: int, target_id: int) -> "ExchangeRate" | None:
+    def _get_valid_rate(self, base_id: int, target_id: int) -> ExchangeRate | None:
         rate = self._rate_dao.get_rate(base_id, target_id)
 
         if rate is None:

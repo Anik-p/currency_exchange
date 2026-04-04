@@ -1,3 +1,4 @@
+from __future__ import annotations
 from exceptions import *
 from typing import TYPE_CHECKING
 
@@ -23,8 +24,8 @@ class RateController:
             для get_all_rates нет поступаемых данных
     """
     def __init__(self, 
-                 rate_service: "RateService", 
-                 currency_service: "CurrencyService"):
+                 rate_service: RateService, 
+                 currency_service: CurrencyService):
          self._rate_service = rate_service
          self._currency_service = currency_service
 
