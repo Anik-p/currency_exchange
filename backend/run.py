@@ -4,10 +4,10 @@ from db import *
 from core import AppInitializer
 from pathlib import Path
 
-if __name__ == "__main__":
+def setup_db():
     if Path(DB_PATH).exists():
         while True:
-            print("Перезаписать БД? (y/n)")
+            print("База данных уже существует. Перезаписать БД? (y/n)")
             value = input()
             if value == "y":
                 print(delete_table())
@@ -15,11 +15,13 @@ if __name__ == "__main__":
                 break
             if value == "n":
                 break
-            print("Введите y/n")
+            print("Введите 'y' или 'n'")
     else:
         print("Инициализация БД...")
         print(init_db())
-
+        
+if __name__ == "__main__":
+    setup_db()
     initializer = AppInitializer()
     app = ServerApp(initializer)
     app.run()
