@@ -1,3 +1,5 @@
+from pathlib import Path
 HOST = "localhost"
 PORT = 8000
-DB_PATH = "backend/db/exchange.db"
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "backend/db/exchange.db"
