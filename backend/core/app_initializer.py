@@ -10,7 +10,7 @@ class AppInitializer:
         self._app_init()
 
     def _app_init(self):
-        self._init_repository()
+        self._init_dao()
         self._init_service()
         self._init_controller()
 
@@ -21,7 +21,7 @@ class AppInitializer:
         except FileNotFoundError:
             raise DatabaseUnavailableError()
 
-    def _init_repository(self):
+    def _init_dao(self):
         path_db = self._path_db()
         self.currency_dao = CurrencyDAO(path_db)
         self.rate_dao = RateDAO(path_db)
