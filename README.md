@@ -20,7 +20,7 @@ REST API для управления валютами, курсами обмен
 
 ##  Архитектура
 
-Проект реализован по MVC(S):
+Проект реализован по слоистой архитектуре (Layered Architecture):
 
 ```
 Controller → Service → DAO → Database
@@ -29,6 +29,7 @@ Controller → Service → DAO → Database
 ##  Структура проекта
 
 currency_exchange/
+
 - controllers/   - обработка HTTP-запросов
 - services/      - бизнес-логика
 - dao/           - работа с БД
@@ -40,6 +41,7 @@ currency_exchange/
 
 - run.py         - точка входа
 - server_app.py  - запуск HTTP сервера
+
 ---
 
 ##  Запуск локального проекта
