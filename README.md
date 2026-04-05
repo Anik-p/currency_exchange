@@ -28,7 +28,7 @@ Controller → Service → DAO → Database
 
 ##  Структура проекта
 
-- currency_exchange/
+currency_exchange/
 - controllers/   - обработка HTTP-запросов
 - services/      - бизнес-логика
 - dao/           - работа с БД
@@ -130,16 +130,20 @@ index.html
 
 Все ошибки возвращают в формате:
 
+```
 {
     "message: "описание ошибки"
 }
+```
 
 ###   Получение списка валют
 
 ```
 GET /currencies
 ```
+
 Пример ответа:
+
 ```json
 [
 
@@ -168,6 +172,8 @@ GET /currency/{code}
 GET /currency/USD
 ```
 
+Пример ответа:
+
 ```json
 {
     "id": 0,
@@ -192,7 +198,7 @@ Content-Type: application/x-www-form-urlencoded
 name=Euro&code=EUR&sign=€
 ```
 
-Ответ:
+Пример ответа:
 
 ```json
 {
@@ -246,7 +252,8 @@ GET /exchangeRate/{pair}
 ```
 GET /exchangeRate/USDEUR
 ```
-Ответ:
+
+Пример ответа:
 
 ```json
 {
@@ -304,6 +311,8 @@ POST /exchangeRates
 PATCH /exchangeRate/{pair}
 ```
 
+Пример ответа:
+
 ```json
 {
     "id": 0,
@@ -330,6 +339,7 @@ PATCH /exchangeRate/{pair}
 ```
 GET /convert?from=USD&to=EUR&amount=100
 ```
+Пример ответа:
 
 ```json
 {
