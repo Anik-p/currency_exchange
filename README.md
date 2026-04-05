@@ -1,12 +1,10 @@
-# Currency Exchange API
+# Currency Exchange
 
 ##  Описание
 
 REST API для управления валютами, курсами обмена и конвертации валют.
 
-Проект создан в рамках Python Roadmap Сергея Жукова ->
-
-https://zhukovsd.github.io/python-backend-learning-course/projects/currency-exchange/
+Проект создан в рамках Python Roadmap Сергея Жукова -> https://zhukovsd.github.io/python-backend-learning-course/projects/currency-exchange/
 
 Основной функционал:
 
@@ -16,11 +14,13 @@ https://zhukovsd.github.io/python-backend-learning-course/projects/currency-exch
 * конвертацию валют
 * поддержка cross-rate через USD
 
+Деплой: http://195.209.212.50
+
 ---
 
 ##  Архитектура
 
-Проект реализован по слоистой архитектуре:
+Проект реализован по MVC(S):
 
 ```
 Controller → Service → DAO → Database
@@ -28,21 +28,21 @@ Controller → Service → DAO → Database
 
 ##  Структура проекта
 
-* project/
-* controllers   - обработка HTTP-запросов
-* services      - бизнес-логика
-* dao           - работа с БД
-* dto           - структуры данных
-* handler       - HTTP server, router
-* db            - SQL и инициализация БД
-* config        - конфигурация
-* utils         - вспомогательные функции
+- currency_exchange/
+- controllers/   - обработка HTTP-запросов
+- services/      - бизнес-логика
+- dao/           - работа с БД
+- dto/           - структуры данных
+- handler/       - HTTP server, router
+- db/            - SQL и инициализация БД
+- config/        - конфигурация
+- utils/         - вспомогательные функции
 
-* run.py         - точка входа
-* server_app.py  - запуск HTTP сервера
+- run.py         - точка входа
+- server_app.py  - запуск HTTP сервера
 ---
 
-##  Запуск проекта
+##  Запуск локального проекта
 
 ###  Требования
 
@@ -52,14 +52,45 @@ Controller → Service → DAO → Database
 ### 1. Клонирование
 
 ```bash
-git clone <repo_url>
-cd project
+git clone https://github.com/Anik-p/currency_exchange.git
 ```
 
-### 2. Запуск
+### 2. Настройка конфигурации
 
+В backend/config/base_config измените следующие параметры:
+
+```python
+HOST = "localhost"  # Для локального запуска
+PORT = 8000
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "db" / "exchange.db"
+```
+
+Так же в fronted/js/app.js измените строку const host на:
+
+```js
+const host = "http://localhost:8000"
+```
+
+### 3. Запуск
+
+Запуск Backend:
 ```bash
 python run.py
+```
+
+Запуск Frontend:
+
+Через Docker:
+```bash
+cd frontend
+chmod +x launch-local-nginx.sh
+./launch-local-nginx.sh
+```
+
+Через браузер:
+```bash
+index.html
 ```
 
 * Автоматически создается база данных
@@ -95,13 +126,21 @@ python run.py
 
 ##  API
 
+### Ошибки
+
+Все ошибки возвращают в формате:
+
+{
+    "message: "описание ошибки"
+}
+
 ###   Получение списка валют
 
 ```
 GET /currencies
 ```
 Пример ответа:
-```
+```json
 [
 
 {
@@ -109,7 +148,7 @@ GET /currencies
     "name": "United States dollar",
     "code": "USD",
     "sign": "$"
-}
+}, 
 
 ...
 
@@ -129,7 +168,7 @@ GET /currency/{code}
 GET /currency/USD
 ```
 
-```
+```json
 {
     "id": 0,
     "name": "Euro",
@@ -147,7 +186,15 @@ POST /currencies
 
 Content-Type: application/x-www-form-urlencoded
 
+Пример тела запроса: 
+
 ```
+name=Euro&code=EUR&sign=€
+```
+
+Ответ:
+
+```json
 {
     "id": 0,
     "name": "Euro",
@@ -164,20 +211,26 @@ Content-Type: application/x-www-form-urlencoded
 GET /exchangeRates
 ```
 
-```
+```json
 [
     {
-        "id": 0,
-        "name": "United States dollar",
-        "code": "USD",
-        "sign": "$"
-    },   
-    {
-        "id": 0,
-        "name": "Euro",
-        "code": "EUR",
-        "sign": "€"
-    }
+        "id": 1,
+        "baseCurrency": {
+            "id": 1,
+            "name": "United States dollar",
+            "code": "USD",
+            "sign": "$"
+        },
+        "targetCurrency": {
+            "id": 2,
+            "name": "Euro",
+            "code": "EUR",
+            "sign": "€"
+        },
+        "rate": "0.92"
+    },
+
+    ...
 ]
 ```
 ---
@@ -195,7 +248,7 @@ GET /exchangeRate/USDEUR
 ```
 Ответ:
 
-```
+```json
 {
     "id": 0,
     "baseCurrency": {
@@ -224,7 +277,7 @@ POST /exchangeRates
 
 Ответ:
 
-```
+```json
 {
     "id": 0,
     "baseCurrency": {
@@ -251,7 +304,7 @@ POST /exchangeRates
 PATCH /exchangeRate/{pair}
 ```
 
-```
+```json
 {
     "id": 0,
     "baseCurrency": {
@@ -278,7 +331,7 @@ PATCH /exchangeRate/{pair}
 GET /convert?from=USD&to=EUR&amount=100
 ```
 
-```
+```json
 {
     "baseCurrency": {
         "id": 0,
@@ -297,10 +350,3 @@ GET /convert?from=USD&to=EUR&amount=100
     "convertedAmount": 14.50
 }
 ```
-## Ошибки
-
-Все ошибки возвращают в формате:
-
-{
-    "message: "описание ошибки"
-}
