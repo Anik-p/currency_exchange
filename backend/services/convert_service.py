@@ -1,7 +1,7 @@
 from __future__ import annotations
 from decimal import Decimal, getcontext, ROUND_DOWN
 from exceptions import CurrencyNotFoundError
-from utils import error_handler
+from utils import error_handler_dao
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -17,18 +17,13 @@ class ConvertService:
         self._currency_dao = currency_dao
         self._convert_rate_service = convert_rate_service
 
-    @error_handler
+    @error_handler_dao
     def convert_currency(self, base_code: str, target_code: str, count_currency: str) -> dict[str, str | dict]:
         getcontext().rounding = ROUND_DOWN
         count_currency = abs(Decimal(str(count_currency)))    
 
         base_currency = self._currency_dao.get_currency(base_code)
-        if base_currency is None:
-            raise CurrencyNotFoundError(base_code)
-
         target_currency = self._currency_dao.get_currency(target_code)
-        if target_currency is None:
-            raise CurrencyNotFoundError(target_code)
         
         if base_code == target_code:
             return self._get_exchange_convert_amount(base_currency=base_currency, 

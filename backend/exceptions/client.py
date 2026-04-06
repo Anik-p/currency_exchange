@@ -15,7 +15,7 @@ class IncorrectInputCodeCurrency(ExchangeError):
 class CurrenciesNotFoundError(ExchangeError):
     status_code = 400
     def __init__(self):
-        message = "Библиотечная база данных не содержит данных о валюте"
+        message = "База данных не содержит данных о валюте"
         super().__init__(message) 
 
 class InvalidCurrencyError(ExchangeError):
@@ -62,8 +62,8 @@ class NotFoundError(ExchangeError):
 
 class CurrencyNotFoundIdError(ExchangeError):
     status_code = 404
-    def __init__(self, base: str):
-        message = f"Не удается найти идентификатор валюты: {base}"
+    def __init__(self):
+        message = f"Не удается найти идентификатор валюты"
         super().__init__(message)
 
 class RateNotFoundError(ExchangeError):

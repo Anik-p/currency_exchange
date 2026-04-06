@@ -24,7 +24,7 @@ class AppInitializer:
     def _init_dao(self):
         path_db = self._path_db()
         self.currency_dao = CurrencyDAO(path_db)
-        self.rate_dao = RateDAO(path_db)
+        self.rate_dao = RateDAO(self.currency_dao, path_db)
 
     def _init_service(self):
         self.currency_service = CurrencyService(self.currency_dao)
