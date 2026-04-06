@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from exceptions import IncorrectInputCodeCurrency
 
 if TYPE_CHECKING:
     from services import ConvertService
@@ -30,8 +31,11 @@ class ConvertController:
                 }
             }
         """
-        code_base = request.get("from")
-        code_target = request.get("to")
-        amount = request.get("amount")
+        code_base: str = request.get("from")
+        code_target: str = request.get("to")
+        amount: str = request.get("amount")
+        if not (code_base.isalpha() and code_target.isalpha() and amount.replace('.', '').isdigit()):
+            raise IncorrectInputCodeCurrency
+        
         convert_rate = self._convert_service.convert_currency(code_base, code_target, amount)
         return {"code": 200, "body": convert_rate}

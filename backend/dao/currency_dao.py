@@ -1,4 +1,5 @@
 from exceptions import DatabaseOperationError, CurrencyNotFoundError, NotFoundError, CurrencyNotFoundIdError
+from utils.dao_guard import error_handler_dao
 from dto import Currency
 import sqlite3
 
@@ -6,6 +7,7 @@ class CurrencyDAO:
     def __init__(self, path_db: str):
         self._path_db = path_db
 
+    @error_handler_dao
     def get_currency(self, code: str) -> Currency:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row
@@ -18,7 +20,8 @@ class CurrencyDAO:
                             code=row["Code"],
                             name=row["FullName"],
                             sign=row["Sign"])
-        
+
+    @error_handler_dao    
     def get_currency_via_id(self, base_id: int) -> Currency:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row
@@ -31,7 +34,8 @@ class CurrencyDAO:
                             code=row["Code"],
                             name=row["FullName"],
                             sign=row["Sign"])
-        
+
+    @error_handler_dao    
     def all_get_currency(self) -> list[Currency]:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row
@@ -46,6 +50,7 @@ class CurrencyDAO:
                                 sign=row["Sign"])
                         for row in all_row]
 
+    @error_handler_dao
     def register_currency_post(self, name: str, code: str, sign: str) -> Currency:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row

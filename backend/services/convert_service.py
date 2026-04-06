@@ -17,7 +17,6 @@ class ConvertService:
         self._currency_dao = currency_dao
         self._convert_rate_service = convert_rate_service
 
-    @error_handler_dao
     def convert_currency(self, base_code: str, target_code: str, count_currency: str) -> dict[str, str | dict]:
         getcontext().rounding = ROUND_DOWN
         count_currency = abs(Decimal(str(count_currency)))    

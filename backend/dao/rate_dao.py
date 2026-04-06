@@ -1,3 +1,4 @@
+from __future__ import annotations
 from exceptions import DatabaseOperationError, RateNotFoundError, AddCurrenciesError, NotFoundError
 from dto import ExchangeRate
 from utils.dao_guard import error_handler_dao

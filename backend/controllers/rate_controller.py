@@ -1,5 +1,5 @@
 from __future__ import annotations
-from exceptions import *
+from exceptions import IncorrectCurrencyData, NotFoundError, IncorrectInputCodeCurrency
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
