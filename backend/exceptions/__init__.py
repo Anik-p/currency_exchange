@@ -1,3 +1,3 @@
 from exceptions.base import ExchangeError
-from exceptions.client import *
-from exceptions.server import *
+from exceptions.domain_errors import *
+from exceptions.system_errors import *

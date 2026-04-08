@@ -1,7 +1,5 @@
 from __future__ import annotations
-from exceptions import *
 from dto import ExchangeRateCurrencies, ExchangeRate
-from utils import error_handler_dao
 from typing import TYPE_CHECKING
 from services import CurrencyService
 
@@ -17,11 +15,11 @@ class RateService:
         self._currency_service = currency_service
         self._rate_dao = rate_dao
         
-    def register_exchange_rate_post(self, base_code: str, target_code: str, rate: str) -> ExchangeRateCurrencies:
+    def create_exchange_rate(self, base_code: str, target_code: str, rate: str) -> ExchangeRateCurrencies:
         exchange_rate = self._rate_dao.create_exchange_rate(base_code, target_code, rate)
         return self._get_exchange_rate_currency(exchange_rate)
 
-    def register_exchange_rate_patch(self, base_code: str, target_code: str, rate: str) -> ExchangeRateCurrencies:
+    def update_exchange_rate(self, base_code: str, target_code: str, rate: str) -> ExchangeRateCurrencies:
         exchange_rate = self._rate_dao.update_exchange_rate(base_code, target_code, rate)
         return self._get_exchange_rate_currency(exchange_rate)
 
@@ -29,9 +27,9 @@ class RateService:
         exchange_rate = self._rate_dao.get_rate(base_id, target_id)
         return self._get_exchange_rate_currency(exchange_rate)
     
-    def get_all_rate(self) -> list[ExchangeRateCurrencies]:
-        all_rate = self._rate_dao.get_all_rate()
-        return [self._get_exchange_rate_currency(rate) for rate in all_rate if rate is not None]
+    def get_all_rates(self) -> list[ExchangeRateCurrencies]:
+        all_rate = self._rate_dao.get_all_rates()
+        return [self._get_exchange_rate_currency(rate) for rate in all_rate]
     
     def _get_exchange_rate_currency(self, exchange_rate: ExchangeRate) -> ExchangeRateCurrencies:
         base_currency = self._currency_service.get_currency_via_id(exchange_rate.base_id)

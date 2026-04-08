@@ -4,7 +4,7 @@ class FrontMixin:
     def send_json(self, code: dict):
         data = code.get("body")
         status = code.get("code")
-        response_data = json.dumps(data, indent=4, ensure_ascii=False)
+        response_data = json.dumps(data, indent=4, ensure_ascii=False).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Access-Control-Allow-Origin", "*")

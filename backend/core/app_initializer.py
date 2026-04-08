@@ -1,8 +1,9 @@
 from controllers import ConvertController, CurrencyController, RateController
 from services import ConvertService, CurrencyService, ConvertRateService, RateService
+from utils import InputValidator
 from dao import CurrencyDAO, RateDAO
-from config.base_config import DB_PATH
-from exceptions import *
+from config import DB_PATH
+from exceptions import DatabaseUnavailableError, CurrencyNotFoundError
 from pathlib import Path
 
 class AppInitializer:
@@ -40,6 +41,7 @@ class AppInitializer:
         return usd_currency.id
         
     def _init_controller(self):
-        self.convert_controller = ConvertController(self.convert_service)
-        self.currency_controller = CurrencyController(self.currency_service)
-        self.rate_controller = RateController(self.rate_service, self.currency_service)
+        self.validator = InputValidator()
+        self.convert_controller = ConvertController(self.convert_service, self.validator)
+        self.currency_controller = CurrencyController(self.currency_service, self.validator)
+        self.rate_controller = RateController(self.rate_service, self.currency_service, self.validator)

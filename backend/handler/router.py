@@ -9,7 +9,7 @@ class Router:
     def __init__(self):
         self.__endpoints = {"GET": {}, "POST": {}, "PATCH": {}}
 
-    def dispatch(self, path: str, method: str, handler: Callable) -> Callable:
+    def register(self, path: str, method: str, handler: Callable) -> Callable:
         """Регистратор новых маршрутов
         path (str): URL паттерн с поддержкой regex
         method (str): HTTP метод ("GET", "POST", "PATCH")

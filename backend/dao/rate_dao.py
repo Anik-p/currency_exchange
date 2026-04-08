@@ -1,7 +1,7 @@
 from __future__ import annotations
 from exceptions import DatabaseOperationError, RateNotFoundError, AddCurrenciesError, NotFoundError
 from dto import ExchangeRate
-from utils.dao_guard import error_handler_dao
+from utils.error_handler_dao import error_handler_dao
 import sqlite3
 from typing import TYPE_CHECKING
 
@@ -25,20 +25,20 @@ class RateDAO:
                             "WHERE BaseCurrencyId = ? AND TargetCurrencyId = ?", (base_id, target_id))
             row = cursor.fetchone()
             if row is None:
-                raise RateNotFoundError
+                return None
             return ExchangeRate(id=row["ID"],
                                 base_id=row["BaseCurrencyId"],
                                 target_id=row["TargetCurrencyId"],
                                 rate=str(row["Rate"]))
 
     @error_handler_dao    
-    def get_all_rate(self) -> list[ExchangeRate]:
+    def get_all_rates(self) -> list[ExchangeRate]:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM ExchangeRates")
             all_row = cursor.fetchall()
-            if all_row is None:
+            if not all_row:
                 raise NotFoundError
             return [ExchangeRate(id=row["ID"],
                                      base_id=row["BaseCurrencyId"],

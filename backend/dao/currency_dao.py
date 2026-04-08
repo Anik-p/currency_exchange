@@ -1,5 +1,5 @@
-from exceptions import DatabaseOperationError, CurrencyNotFoundError, NotFoundError, CurrencyNotFoundIdError
-from utils.dao_guard import error_handler_dao
+from exceptions import DatabaseOperationError, CurrencyNotFoundError, NotFoundError, CurrencyNotFoundIdError, AddCurrencyError
+from utils.error_handler_dao import error_handler_dao
 from dto import Currency
 import sqlite3
 
@@ -22,7 +22,7 @@ class CurrencyDAO:
                             sign=row["Sign"])
 
     @error_handler_dao    
-    def get_currency_via_id(self, base_id: int) -> Currency:
+    def get_currency_by_id(self, base_id: int) -> Currency:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
@@ -36,7 +36,7 @@ class CurrencyDAO:
                             sign=row["Sign"])
 
     @error_handler_dao    
-    def all_get_currency(self) -> list[Currency]:
+    def get_all_currencies(self) -> list[Currency]:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
@@ -51,14 +51,17 @@ class CurrencyDAO:
                         for row in all_row]
 
     @error_handler_dao
-    def register_currency_post(self, name: str, code: str, sign: str) -> Currency:
+    def create_currency(self, name: str, code: str, sign: str) -> Currency:
         with sqlite3.connect(self._path_db) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO Currencies (Code, FullName, Sign) VALUES (?, ?, ?)", (code, name, sign))
-            conn.commit()
-            cursor.execute("SELECT * FROM Currencies WHERE Code = ?", (code,))
-            row = cursor.fetchone()
+            try:
+                cursor.execute("INSERT INTO Currencies (Code, FullName, Sign) VALUES (?, ?, ?)", (code, name, sign))
+                conn.commit()
+                cursor.execute("SELECT * FROM Currencies WHERE Code = ?", (code,))
+                row = cursor.fetchone()
+            except sqlite3.IntegrityError:
+                raise AddCurrencyError(code)
 
             if row is None:
                 raise DatabaseOperationError

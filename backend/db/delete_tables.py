@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 from config import DB_PATH
 
-def delete_table():
+def delete_tables():
     DB = Path(DB_PATH).resolve()
     if not DB.exists():
         return ("Таблицы в базе данных уже удалены")

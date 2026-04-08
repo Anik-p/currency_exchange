@@ -1,4 +1,4 @@
-from controllers import ServerApp
+from controllers import Application
 from config.base_config import DB_PATH
 from db import *
 from core import AppInitializer
@@ -13,8 +13,8 @@ def setup_db():
             print("База данных уже существует. Перезаписать БД? (y/n)")
             value = input()
             if value == "y":
-                print(delete_table())
-                print(create_table())
+                print(delete_tables())
+                print(create_tables())
                 break
             if value == "n":
                 break
@@ -26,7 +26,7 @@ def setup_db():
 if __name__ == "__main__":
     setup_db()
     initializer = AppInitializer()
-    app = ServerApp(initializer)
+    app = Application(initializer)
     try:
         logging.info("Запуск сервера...")
         app.run()

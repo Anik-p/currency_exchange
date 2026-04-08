@@ -13,7 +13,7 @@ class ConvertRateService:
         self._rate_dao = rate_dao
         self._usd_id = usd_id
 
-    def get_conversion_rate(self, base_currency: Currency, target_currency: Currency) -> Decimal | None:
+    def get_conversion_rate(self, base_currency: Currency, target_currency: Currency) -> Decimal:
 
         rate = self._get_valid_rate(base_currency.id, target_currency.id)
    
@@ -24,8 +24,8 @@ class ConvertRateService:
         if reverse_rate is not None:
             return Decimal("1") / Decimal(reverse_rate.rate)
 
-        cross_rate_base = self._find_direct_or_reverse(base_currency.id, self._usd_id)
-        cross_rate_target = self._find_direct_or_reverse(self._usd_id, target_currency.id)
+        cross_rate_base = self._get_cross_rate(base_currency.id, self._usd_id)
+        cross_rate_target = self._get_cross_rate(self._usd_id, target_currency.id)
 
         if cross_rate_base is None or cross_rate_target is None:
             raise RateNotFoundError()
@@ -43,7 +43,7 @@ class ConvertRateService:
         
         return rate
         
-    def _find_direct_or_reverse(self, base_id: int, target_id: int) -> Decimal | None:
+    def _get_cross_rate(self, base_id: int, target_id: int) -> Decimal | None:
         rate = self._get_valid_rate(base_id, target_id)
         if rate is not None:
             return Decimal(rate.rate)

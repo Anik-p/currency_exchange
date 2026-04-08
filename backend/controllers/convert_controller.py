@@ -1,9 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from exceptions import IncorrectInputCodeCurrency
 
 if TYPE_CHECKING:
     from services import ConvertService
+    from utils import InputValidator
+    from decimal import Decimal
 
 class ConvertController:
     """Класс, отвечающий за конвертацию валюты.
@@ -13,10 +14,14 @@ class ConvertController:
                 - 'to' (str): Код целевой валюты (например, 'EUR')
                 - 'amount' (str): Сумма для конвертации
     """
-    def __init__(self, convert_service: ConvertService,):
+    def __init__(self, 
+                 convert_service: ConvertService, 
+                 validator: InputValidator):
+        
         self._convert_service = convert_service
+        self._validator = validator
 
-    def convert(self, request: dict) -> dict[str, dict]:
+    def convert(self, params: dict) -> dict[str, dict]:
         """
         GET /convert?from={from}&to={to}&amount={amount}
         Конвертирует сумму из одной валюты в другую.
@@ -31,11 +36,9 @@ class ConvertController:
                 }
             }
         """
-        code_base: str = request.get("from")
-        code_target: str = request.get("to")
-        amount: str = request.get("amount")
-        if not (code_base.isalpha() and code_target.isalpha() and amount.replace('.', '').isdigit()):
-            raise IncorrectInputCodeCurrency
+        from_code: str = params.get("from")
+        to_code: str = params.get("to")
+        amount: Decimal = self._validator.validate_convert(params.get("amount")) 
         
-        convert_rate = self._convert_service.convert_currency(code_base, code_target, amount)
-        return {"code": 200, "body": convert_rate}
+        result = self._convert_service.convert_currency(from_code, to_code, amount)
+        return {"code": 200, "body": result}
